@@ -1,5 +1,6 @@
 use crate::alias::*;
 use crate::types::prelude::*;
+use std::ffi::CString;
 
 pub struct LynchCoder {
     pub base64_byte: Vec<u8>,
@@ -39,6 +40,13 @@ impl LynchCoder {
         }
     }
 
+    /// # Create a new Instance from an existing one
+    /// 
+    /// For example
+    /// 
+    /// ```
+    /// let lynch = LynchCoder::from_existing(&lynch);
+    /// ```
     pub fn from_existing(coder: &LynchCoder) -> Self {
         Self {
             base64_byte: coder.base64_byte.clone(),
@@ -47,5 +55,10 @@ impl LynchCoder {
             lynch_string: coder.lynch_string.clone(),
             lynch_code: coder.lynch_code.clone(),
         }
+    }
+
+    fn base64_byte_string(&self) -> String {
+        let base64_string = base64::encode(&self.base64_byte);
+        base64_string
     }
 }
