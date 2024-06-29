@@ -1,64 +1,46 @@
-use crate::alias::*;
 use crate::types::prelude::*;
+use crate::alias::*;
+use base64;
 use std::ffi::CString;
 
 pub struct LynchCoder {
-    pub base64_byte: Vec<u8>,
-    pub base64_string: String,
-    pub lynch_byte: Vec<Float<FloatAlias>>,
-    pub lynch_string: String,
-    pub lynch_code: List<FloatAlias>,
+    pub instance: String,
 }
 
 impl LynchCoder {
-    /// # Create a new Instance
-    /// 
-    /// For example
-    /// 
-    /// ```
-    /// let lynch = LynchCoder::new(
-    ///     Vec::new(),
-    ///     String::new(),
-    ///     Vec::new(),
-    ///     String::new(),
-    ///     List::new(),
-    /// );
-    /// ```
-    pub fn new(
-        base64_byte: Vec<u8>,
-        base64_string: String,
-        lynch_byte: Vec<Float<FloatAlias>>,
-        lynch_string: String,
-        lynch_code: List<FloatAlias>,
-    ) -> Self {
+
+    /// Create a New Instance, this is a instance without content, more later
+    pub fn new() -> Self {
         Self {
-            base64_byte,
-            base64_string,
-            lynch_byte,
-            lynch_string,
-            lynch_code,
+            instance: String::new(),
         }
     }
 
-    /// # Create a new Instance from an existing one
-    /// 
-    /// For example
-    /// 
-    /// ```
-    /// let lynch = LynchCoder::from_existing(&lynch);
-    /// ```
-    pub fn from_existing(coder: &LynchCoder) -> Self {
+    /// Create a New Instance from a CString
+    pub fn from_cstring(cstring: CString) -> Self {
         Self {
-            base64_byte: coder.base64_byte.clone(),
-            base64_string: coder.base64_string.clone(),
-            lynch_byte: coder.lynch_byte.clone(),
-            lynch_string: coder.lynch_string.clone(),
-            lynch_code: coder.lynch_code.clone(),
+            instance: cstring.to_str().unwrap().to_string(),
         }
     }
 
-    fn base64_byte_string(&self) -> String {
-        let base64_string = base64::encode(&self.base64_byte);
-        base64_string
+    /// Create a New Instance from a String
+    pub fn from_string(string: String) -> Self {
+        Self {
+            instance: string,
+        }
+    }
+
+    /// Create a New Instance from a Lynch String
+    pub fn from_lynch_str(string: String) -> Self {
+        Self {
+            instance: string,
+        }
+    }
+
+    /// Create a New Instance from a Lynch CString
+    pub fn from_lynch_cstr(cstring: CString) -> Self {
+        Self {
+            instance: cstring.to_str().unwrap().to_string(),
+        }
     }
 }

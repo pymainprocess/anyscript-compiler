@@ -14,13 +14,13 @@ pub struct Float<T1> {
     pub type_id: String,
 }
 
-impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Default for Float<T1> {
+impl<T1: 'static + Default + Display + PartialEq + Hash + Clone + Send + Sync> Default for Float<T1> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Float<T1> {
+impl<T1: 'static + Default + Display + PartialEq + Hash + Clone + Send + Sync> Float<T1> {
     ///
     /// # Create a new instance of the class
     ///
@@ -215,7 +215,7 @@ impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Float<T1
     }
 }
 
-impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Display for Float<T1> {
+impl<T1: 'static + Default + Display + PartialEq + Hash + Clone + Send + Sync> Display for Float<T1> {
     fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
         write!(f, "{}", self.floating)
     }

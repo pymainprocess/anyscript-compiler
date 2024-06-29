@@ -33,7 +33,7 @@ fn main() {
             return;
         }
         let arg_2 = all_args.get(2).unwrap();
-        let (interpreter, path) = read_shebang(&arg_2);
+        let (interpreter, path) = read_shebang(arg_2);
         println!("Interpreter: {}", interpreter);
         println!("Path: {}", path);
     } else if arg_1 == "--help" || arg_1 == "-h" {
