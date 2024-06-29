@@ -5,6 +5,8 @@ pub mod setup;
 #[allow(unused_imports)]
 pub mod alias;
 #[allow(unused_imports)]
+pub mod lynch;
+#[allow(unused_imports)]
 pub mod parser {
     pub use crate::alias::*;
     pub use crate::types::prelude::*;
