@@ -133,4 +133,5 @@ add_custom_target(fixed
     COMMAND cargo clean
     COMMAND cargo clippy --fix --allow-dirty
     COMMAND cargo fmt
+    COMMAND cargo clean
 )
