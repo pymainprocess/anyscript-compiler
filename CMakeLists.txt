@@ -95,12 +95,15 @@ endif()
 find_package(OpenSSL REQUIRED)
 
 find_or_in_pkg(cargo-deb)
+find_or_in_pkg(cargo-rpm)
+find_or_in_pkg(cargo-clone)
 
 add_custom_target(docs
     COMMAND mkdir -p ${DOC_OUTPUT_DIR}
     COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_DOC} ${CMAKE_BUILD_FLAG} --target-dir ${DOC_OUTPUT_DIR}
 )
 
-add_custom_target(deb
+add_custom_target(pkg
     COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_DEB} ${CMAKE_BUILD_FLAG} --target-dir ${OUTPUT_DIR}
+    COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_RPM} ${CMAKE_BUILD_FLAG} --target-dir ${OUTPUT_DIR}
 )

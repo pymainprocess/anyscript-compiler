@@ -2,8 +2,9 @@ use std::ffi::CString;
 use crate::alias::*;
 use crate::types::prelude::*;
 use std::hash::Hash;
-use std::fmt::Display;
+use std::fmt::{Display, Formatter, Result as FmtResult};
 use std::any::TypeId;
+use std::str::FromStr;
 
 pub struct Int<T1> {
     pub integral: IntAlias,
@@ -43,6 +44,7 @@ impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Int<T1> 
             type_id: String::new(),
         }
     }
+
     ///
     /// # Reset the class
     ///
@@ -61,6 +63,7 @@ impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Int<T1> 
         self.original = T1::default();
         self.type_id = String::new();
     }
+
     ///
     /// # Check Valid
     ///
@@ -139,5 +142,80 @@ impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Int<T1> 
         }
         (false, "unsupported type".to_string())
     }
-    
+
+    /// # Convert Integral to Float, with Optional set to 32 bit or 64 bit
+    /// 
+    /// ```rust
+    /// pub fn to_float(&mut self, bit32: Option<bool>) {
+    ///     let if_32 = bit32.unwrap_or(true); // Default is true
+    ///     if if_32 {
+    ///         self.integral = self.integral as f32 as IntAlias;
+    ///     } else {
+    ///         self.integral = self.integral as f64 as IntAlias;
+    ///     }
+    /// }
+    /// ```
+    pub fn to_float(&mut self, bit32: Option<bool>) {
+        let if_32 = bit32.unwrap_or(true); // Default is true
+        if if_32 {
+            self.integral = self.integral as f32 as IntAlias;
+        } else {
+            self.integral = self.integral as f64 as IntAlias;
+        }
+    }
+
+    /// # Convert to String
+    /// 
+    /// ```rust
+    /// pub fn to_str(&self) -> String {
+    ///     self.integral.to_string()
+    /// }
+    /// ```
+    pub fn to_str(&self) -> String {
+        self.integral.to_string()
+    }
+
+    /// # Convert to an CString
+    /// 
+    /// ```rust
+    /// pub fn to_cstring(&self) -> CString {
+    ///     let _nstring = self.to_str();
+    ///     let _cstr = CString::new(_nstring).unwrap();
+    ///     _cstr
+    /// }
+    /// ```
+    pub fn to_cstring(&self) -> CString {
+        let _nstring = self.to_str();
+        let _cstr = CString::new(_nstring).unwrap();
+        _cstr
+    }
+
+    /// # Convert from String
+    /// 
+    /// ```rust
+    /// pub fn from_string(s: &str) -> Result<Self, <IntAlias as FromStr>::Err> {
+    ///     let integral = s.parse::<IntAlias>()?;
+    ///     Ok(Int {
+    ///         integral,
+    ///         size: 0,
+    ///         original: T1::default(),
+    ///         type_id: String::new(),
+    ///     })
+    /// }
+    /// ```
+    pub fn from_string(s: &str) -> Result<Self, <IntAlias as FromStr>::Err> {
+        let integral = s.parse::<IntAlias>()?;
+        Ok(Int {
+            integral,
+            size: 0,
+            original: T1::default(),
+            type_id: String::new(),
+        })
+    }
+}
+
+impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Display for Int<T1> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
+        write!(f, "{}", self.integral)
+    }
 }
