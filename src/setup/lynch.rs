@@ -10,6 +10,19 @@ pub struct LynchCoder {
 }
 
 impl LynchCoder {
+    /// # Create a new Instance
+    /// 
+    /// For example
+    /// 
+    /// ```
+    /// let lynch = LynchCoder::new(
+    ///     Vec::new(),
+    ///     String::new(),
+    ///     Vec::new(),
+    ///     String::new(),
+    ///     List::new(),
+    /// );
+    /// ```
     pub fn new(
         base64_byte: Vec<u8>,
         base64_string: String,
@@ -26,7 +39,6 @@ impl LynchCoder {
         }
     }
 
-    // Beispielmethode, die eine Instanz von LynchCoder zurückgibt
     pub fn from_existing(coder: &LynchCoder) -> Self {
         Self {
             base64_byte: coder.base64_byte.clone(),
