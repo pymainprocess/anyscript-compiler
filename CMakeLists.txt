@@ -19,3 +19,8 @@ else()
     set(CMAKE_BUILD_FLAG ${CARGO_COMPILER_DEBUG})
 endif()
 # Hier wird Kontrolliert, ob man einen Build Verzeichnis erstellt hat und man sich daher in ${CMAKE_SOURCE_DIR}/build befindet
+if (EXISTS "${CMAKE_SOURCE_DIR}/build" AND "${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}/build")
+    message(STATUS "Build Directory is ${CMAKE_SOURCE_DIR}/build")
+else()
+    message(FATAL_ERROR "Build Directory is ${CMAKE_BINARY_DIR}")
+endif()
