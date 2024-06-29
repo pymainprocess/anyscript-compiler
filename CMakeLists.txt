@@ -12,7 +12,8 @@ include(${CMAKE_SOURCE_DIR}/CargoSetup.cmake)
 
 # Jetzt werden wichtige Umgebungsvariablen definiert
 set(DEBUG_BUILD OFF)
-set(OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/output)
+set(OUTPUT_DIR ${CMAKE_SOURCE_DIR}/build/output)
+set(DOC_OUTPUT_DIR ${OUTPUT_DIR}/doc)
 set(NINJA_SUPPORT OFF)
 
 # Nun werden wir die Variablen verwenden, um unseren Build zu steuern
@@ -92,3 +93,9 @@ else()
 endif()
 
 find_package(OpenSSL REQUIRED)
+
+add_custom_target(docs
+    message(STATUS "Building Project Documentation and push him to ${DOC_OUTPUT_DIR}")
+    COMMAND mkdir -p ${DOC_OUTPUT_DIR}
+    COMMAND ${CARGO_COMPILER} ${CMAKE_BUILD_FLAG} --target-dir ${DOC_OUTPUT_DIR}
+)
