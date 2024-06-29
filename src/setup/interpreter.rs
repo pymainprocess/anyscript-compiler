@@ -47,27 +47,29 @@ impl ReadShebang {
         let shebang = self.get_shebang_line();
         // Teile die Shebang-Zeile in Teile
         let parts: Vec<&str> = shebang.split_whitespace().collect();
-        // Wenn es mehr als ein Teil gibt, speichere den Interpreter
-        if parts.len() > 1 {
-            if parts[0] == "#!/usr/bin/env" {
-                self.interpreter_line = parts[1].to_string();
-            } else {
+        
+        match parts.len() {
+            0 => String::new(),
+            1 => {
                 let interpreter_path = parts[0];
                 let interpreter_parts: Vec<&str> = interpreter_path.split('/').collect();
                 if let Some(interpreter) = interpreter_parts.last() {
                     self.interpreter_line = interpreter.to_string();
                 }
+                self.interpreter_line.clone()
+            },
+            _ => {
+                if parts[0] == "#!/usr/bin/env" {
+                    self.interpreter_line = parts[1].to_string();
+                } else {
+                    let interpreter_path = parts[0];
+                    let interpreter_parts: Vec<&str> = interpreter_path.split('/').collect();
+                    if let Some(interpreter) = interpreter_parts.last() {
+                        self.interpreter_line = interpreter.to_string();
+                    }
+                }
+                self.interpreter_line.clone()
             }
-            self.interpreter_line.clone()
-        } else if parts.len() == 1 {
-            let interpreter_path = parts[0];
-            let interpreter_parts: Vec<&str> = interpreter_path.split('/').collect();
-            if let Some(interpreter) = interpreter_parts.last() {
-                self.interpreter_line = interpreter.to_string();
-            }
-            self.interpreter_line.clone()
-        } else {
-            String::new()
         }
     }
 

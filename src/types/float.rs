@@ -161,7 +161,7 @@ impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Float<T1
         if if_32 {
             self.floating = self.floating as f32 as FloatAlias;
         } else {
-            self.floating = self.floating as f64 as FloatAlias;
+            self.floating = self.floating as FloatAlias;
         }
     }
 
@@ -187,8 +187,8 @@ impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Float<T1
     /// ```
     pub fn to_cstring(&self) -> CString {
         let _nstring = self.to_str();
-        let _cstr = CString::new(_nstring).unwrap();
-        _cstr
+        
+        CString::new(_nstring).unwrap()
     }
 
     /// # Convert from String

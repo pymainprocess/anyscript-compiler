@@ -187,8 +187,8 @@ impl<T1: 'static + Default + Display + Eq + Hash + Clone + Send + Sync> Int<T1> 
     /// ```
     pub fn to_cstring(&self) -> CString {
         let _nstring = self.to_str();
-        let _cstr = CString::new(_nstring).unwrap();
-        _cstr
+        
+        CString::new(_nstring).unwrap()
     }
 
     /// # Convert from String
