@@ -111,11 +111,13 @@ if (CREATE_RPM)
 endif()
 
 add_custom_target(docs
+    COMMAND cd ${CMAKE_SOURCE_DIR}
     COMMAND mkdir -p ${DOC_OUTPUT_DIR}
     COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_DOC} ${CMAKE_BUILD_FLAG} --target-dir ${DOC_OUTPUT_DIR}
 )
 
 add_custom_target(pkg
+    COMMAND cd ${CMAKE_SOURCE_DIR}
     COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_DEB} ${CMAKE_BUILD_FLAG} --target-dir ${OUTPUT_DIR}
     COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_RPM} ${CMAKE_BUILD_FLAG} --target-dir ${OUTPUT_DIR}
 )
@@ -124,4 +126,11 @@ add_custom_target(git
     COMMAND git add ${CMAKE_SOURCE_DIR}
     COMMAND git commit -m "Update"
     COMMAND git push origin master
+)
+
+add_custom_target(fixed
+    COMMAND cd ${CMAKE_SOURCE_DIR}
+    COMMAND cargo clean
+    COMMAND cargo clippy --fix --allow-dirty
+    COMMAND cargo fmt
 )
