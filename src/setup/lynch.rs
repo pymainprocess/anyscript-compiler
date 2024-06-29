@@ -3,32 +3,35 @@ use std::path::{Path, PathBuf};
 use std::fs::{File, write};
 use std::io::{BufReader, BufWriter, Read};
 
-struct LynchReader {
+pub struct LynchReader {
     filepath: String,
     content: String,
-    result: String,
+    coded: String,
+    encoded: String,
 }
 
 impl LynchReader {
 
-    fn new(filepath: String) -> Self {
+    pub fn new(filepath: String) -> Self {
         LynchReader {
             filepath,
             content: String::new(),
-            result: String::new(),
+            coded: String::new(),
+            encoded: String::new(),
         }
     }
 
-    fn from_cstring(filepath: CString) -> Self {
+    pub fn from_cstring(filepath: CString) -> Self {
         let _string = filepath.to_str().unwrap().to_string();
         Self {
             filepath: _string.clone(),
             content: String::new(),
-            result: String::new(),
+            coded: String::new(),
+            encoded: String::new(),
         }
     }
 
-    fn content_to_string(&mut self) -> String {
+    pub fn content_to_string(&mut self) -> String {
         let _file = File::open(&self.filepath).expect("Could not open file.");
         let mut _content = String::new();
         let mut reader = BufReader::new(_file);
@@ -36,17 +39,17 @@ impl LynchReader {
         _content
     }
 
-    fn content_to_cstring(&mut self) -> CString {
+    pub fn content_to_cstring(&mut self) -> CString {
         let _content = self.content_to_string();
         CString::new(_content).expect("Could not convert string to cstring.")
     }
 
-    fn read_content(&mut self) {
+    pub fn read_content(&mut self) {
         let _content = self.content_to_string();
         self.content = _content;
     }
-    
-    fn decode_lynch(&mut self) {
+
+    pub fn decode_lynch(&mut self) {
         let _content = self.content_to_string();
         let mut _result = String::new();
         // Wir schreiben den Code um und codieren es in Zahlen um
@@ -77,7 +80,81 @@ impl LynchReader {
             _liste.push("0".to_string()); // Zeilentrenner hinzufügen
         }
         _result = _liste.join(" ");
-        self.result = _result;
+        self.coded = _result;
     }
 
+    pub fn encode_lynch(&mut self) {
+        let mut _result = String::new();
+        let mut _encoded_list = Vec::new();
+        let coded_content = &self.coded;
+
+        for code in coded_content.split_whitespace() {
+            let encoded_char = match code {
+                "1" => 'a',
+                "2" => 'b',
+                "3" => 'c',
+                "4" => 'd',
+                "5" => 'e',
+                "6" => 'f',
+                "7" => 'g',
+                "8" => 'h',
+                "9" => 'i',
+                "10" => 'j',
+                "11" => 'k',
+                "12" => 'l',
+                "13" => 'm',
+                "14" => 'n',
+                "15" => 'o',
+                "16" => 'p',
+                "17" => 'q',
+                "18" => 'r',
+                "19" => 's',
+                "20" => 't',
+                "21" => 'u',
+                "22" => 'v',
+                "23" => 'w',
+                "24" => 'x',
+                "25" => 'y',
+                "26" => 'z',
+                "00" => '0',
+                "001" => '1',
+                "002" => '2',
+                "003" => '3',
+                "004" => '4',
+                "005" => '5',
+                "006" => '6',
+                "007" => '7',
+                "008" => '8',
+                "009" => '9',
+                "0" => '\n', // Zeilentrenner
+                _ => '?', // Unbekanntes Zeichen
+            };
+            _encoded_list.push(encoded_char);
+        }
+
+        _result = _encoded_list.iter().collect::<String>();
+        self.encoded = _result;
+    }
+
+    pub fn coded_to_string(&mut self) -> String {
+        self.decode_lynch();
+        let _result = self.encoded.clone();
+        _result
+    }
+
+    pub fn coded_to_cstring(&mut self) -> CString {
+        let _result = self.coded_to_string();
+        CString::new(_result).expect("Could not convert string to cstring.")
+    }
+
+    pub fn encoded_to_string(&mut self) -> String {
+        self.encode_lynch();
+        let _result = self.encoded.clone();
+        _result
+    }
+
+    pub fn encoded_to_cstring(&mut self) -> CString {
+        let _result = self.encoded_to_string();
+        CString::new(_result).expect("Could not convert string to cstring.")
+    }
 }
