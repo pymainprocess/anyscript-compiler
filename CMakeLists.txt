@@ -26,19 +26,19 @@ endif()
 
 # Hier wird kontrolliert, ob man ein Build-Verzeichnis erstellt hat und man sich daher in ${CMAKE_SOURCE_DIR}/build befindet
 if (EXISTS "${CMAKE_SOURCE_DIR}/build" AND "${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}/build")
-    message(STATUS "Build-Verzeichnis ist ${CMAKE_SOURCE_DIR}/build")
+    message(STATUS "Build Directory is ${CMAKE_SOURCE_DIR}/build")
 else()
-    message(FATAL_ERROR "Build-Verzeichnis ist ${CMAKE_BINARY_DIR}")
+    message(FATAL_ERROR "Build Directory is ${CMAKE_BINARY_DIR}")
 endif()
 
-# Funktion zum Überprüfen und Installieren von Cargo-Paketen
-function(find_or_install_package pkg)
+# Function to check and install Cargo packages
+function(find_or_in_pkg pkg)
     find_package(${pkg} QUIET)
     if (NOT ${pkg}_FOUND)
-        message(STATUS "Package: ${pkg} not found. Installing with Cargo...")
+        message(STATUS "Package: ${pkg} not Found. Install it with Cargo ...")
         execute_process(COMMAND cargo install ${pkg} RESULT_VARIABLE result)
         if (result)
-            message(FATAL_ERROR "Failed to install: ${pkg}. Please update Cargo or install Cargo.")
+            message(FATAL_ERROR "Failed to install: ${pkg}, pls update cargo or install cargo")
         else()
             message(STATUS "Successfully installed ${pkg}")
         endif()
