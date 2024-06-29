@@ -7,6 +7,12 @@ pub struct LynchCoder {
     pub instance: String,
 }
 
+impl Default for LynchCoder {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl LynchCoder {
 
     /// Create a New Instance, this is a instance without content, more later
