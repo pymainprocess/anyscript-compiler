@@ -20,9 +20,19 @@ fn show_usage(stdout: bool) {
 
 fn main() {
     let all_args: Vec<String> = env::args().collect();
+    if all_args.len() < 2 {
+        show_usage(true);
+        return;
+    }
+
     let arg_1 = all_args.get(1).unwrap();
-    let arg_2 = all_args.get(2).unwrap();
     if arg_1 == "--shebang" || arg_1 == "-s" {
+        if all_args.len() < 3 {
+            eprintln!("Fehler: Shebang-Zeile fehlt.");
+            show_usage(false);
+            return;
+        }
+        let arg_2 = all_args.get(2).unwrap();
         let (interpreter, path) = read_shebang(&arg_2);
         println!("Interpreter: {}", interpreter);
         println!("Path: {}", path);
