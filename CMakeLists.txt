@@ -15,6 +15,8 @@ set(DEBUG_BUILD OFF)
 set(OUTPUT_DIR ${CMAKE_SOURCE_DIR}/build/output)
 set(DOC_OUTPUT_DIR ${OUTPUT_DIR}/doc)
 set(NINJA_SUPPORT OFF)
+set(CREATE_DEB OFF)
+set(CREATE_RPM OFF)
 
 # Nun werden wir die Variablen verwenden, um unseren Build zu steuern
 if (NOT DEBUG_BUILD)
@@ -92,11 +94,21 @@ else()
     message(STATUS "Found Pkg-config: ${PKG_CONFIG_EXECUTABLE}")
 endif()
 
+find_program(GIT_EXECUTABLE NAMES git)
+if (NOT GIT_EXECUTABLE)
+    message(FATAL_ERROR "Git not found. Please ensure it is installed and in your PATH.")
+else()
+    message(STATUS "Found Git: ${GIT_EXECUTABLE}")
+endif()
+
 find_package(OpenSSL REQUIRED)
 
-find_or_in_pkg(cargo-deb)
-find_or_in_pkg(cargo-rpm)
-find_or_in_pkg(cargo-clone)
+if (CREATE_DEB)
+    find_or_in_pkg(cargo-deb)
+endif()
+if (CREATE_RPM)
+    find_or_in_pkg(cargo-rpm)
+endif()
 
 add_custom_target(docs
     COMMAND mkdir -p ${DOC_OUTPUT_DIR}
@@ -106,4 +118,10 @@ add_custom_target(docs
 add_custom_target(pkg
     COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_DEB} ${CMAKE_BUILD_FLAG} --target-dir ${OUTPUT_DIR}
     COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_RPM} ${CMAKE_BUILD_FLAG} --target-dir ${OUTPUT_DIR}
+)
+
+add_custom_target(git
+    COMMAND git add .
+    COMMAND git commit -m "Update"
+    COMMAND git push origin master
 )
