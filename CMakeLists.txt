@@ -121,7 +121,7 @@ add_custom_target(pkg
 )
 
 add_custom_target(git
-    COMMAND git add .
+    COMMAND git add ${CMAKE_SOURCE_DIR}
     COMMAND git commit -m "Update"
     COMMAND git push origin master
 )
