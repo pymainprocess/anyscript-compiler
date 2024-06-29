@@ -95,7 +95,6 @@ endif()
 find_package(OpenSSL REQUIRED)
 
 add_custom_target(docs
-    message(STATUS "Building Project Documentation and push him to ${DOC_OUTPUT_DIR}")
     COMMAND mkdir -p ${DOC_OUTPUT_DIR}
-    COMMAND ${CARGO_COMPILER} ${CMAKE_BUILD_FLAG} --target-dir ${DOC_OUTPUT_DIR}
+    COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_DOC} ${CMAKE_BUILD_FLAG} --target-dir ${DOC_OUTPUT_DIR}
 )
