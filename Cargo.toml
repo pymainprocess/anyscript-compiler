@@ -1,6 +1,11 @@
 [package]
 name = "anyscript-compiler"
 version = "0.1.0"
+description = "A compiler for the AnyScript programming language, and Self Extracted Archives"
+license = "MIT OR Apache-2.0"
+authors = ["Kevin Alexander Krefting <kakrefting@gmail.com>"]
+homepage = "https://pymainprocess.github.io/anyscript-compiler/"
+repository = "https://github.com/pymainprocess/anyscript-compiler"
 edition = "2021"
 
 [dependencies]
