@@ -94,7 +94,13 @@ endif()
 
 find_package(OpenSSL REQUIRED)
 
+find_or_in_pkg(cargo-deb)
+
 add_custom_target(docs
     COMMAND mkdir -p ${DOC_OUTPUT_DIR}
     COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_DOC} ${CMAKE_BUILD_FLAG} --target-dir ${DOC_OUTPUT_DIR}
+)
+
+add_custom_target(deb
+    COMMAND ${CARGO_COMPILER} ${CARGO_COMPILER_DEB} ${CMAKE_BUILD_FLAG} --target-dir ${OUTPUT_DIR}
 )
