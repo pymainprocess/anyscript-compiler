@@ -1,6 +1,6 @@
 [package]
 name = "anyscript-compiler"
-version = "0.1.0"
+version = "0.1.1"
 description = "A compiler for the AnyScript programming language, and Self Extracted Archives"
 license = "MIT OR Apache-2.0"
 authors = ["Kevin Alexander Krefting <kakrefting@gmail.com>"]
