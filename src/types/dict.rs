@@ -8,6 +8,7 @@ use std::hash::Hash;
 use crate::types::prelude::*;
 
 /// Class to Handle a Dictionary
+#[derive(Clone)]
 pub struct Dict<K, V> {
     pub keys: Vec<K>,
     pub values: Vec<V>,

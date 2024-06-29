@@ -6,6 +6,7 @@ use std::fmt::Display;
 use std::default::Default;
 use std::ffi::CString;
 
+#[derive(Clone)]
 pub struct Tuple<T1: Default + Display + Clone + Send + Sync, T2: Default + Display + Clone + Send + Sync> {
     pub first: T1,
     pub second: T2,

@@ -6,6 +6,7 @@ use std::fmt::{Display, Formatter, Result as FmtResult};
 use std::any::TypeId;
 use std::str::FromStr;
 
+#[derive(Clone)]
 pub struct Int<T1> {
     pub integral: IntAlias,
     pub size: IntAlias,

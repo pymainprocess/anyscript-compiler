@@ -6,6 +6,7 @@ use std::fmt::{Display, Formatter, Result as FmtResult};
 use std::any::TypeId;
 use std::str::FromStr;
 
+#[derive(Clone)]
 pub struct Float<T1> {
     pub floating: FloatAlias,
     pub size: FloatAlias,
