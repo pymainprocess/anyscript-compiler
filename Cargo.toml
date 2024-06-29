@@ -9,3 +9,5 @@ repository = "https://github.com/pymainprocess/anyscript-compiler"
 edition = "2021"
 
 [dependencies]
+base64 = "0.22.1"
+which = "6.0.1"
