@@ -1,23 +1,34 @@
 use anyscript_compiler::parser::ReadShebang;
 use std::env;
 
-fn main() {
-    // Erhalte die Argumente von der Kommandozeile
-    let args: Vec<String> = env::args().collect();
-    
-    // Überprüfe, ob ein Argument übergeben wurde
-    if args.len() < 2 {
-        eprintln!("Usage: {} <shebang>", args[0]);
-        std::process::exit(1);
-    }
-
-    // Erhalte das Shebang-Argument
-    let shebang = &args[1];
-    
-    // Erstelle eine neue ReadShebang-Instanz
+fn read_shebang(shebang: &str) -> (String, String) {
     let mut parsed = ReadShebang::new(shebang.to_string());
-    
-    // Drucke den Interpreter und den Pfad
-    println!("Interpreter: {:?}", parsed.get_interpreter_line());
-    println!("Path: {:?}", parsed.get_path_line());
+    (parsed.get_interpreter_line(), parsed.get_path_line())
+}
+
+fn show_usage(stdout: bool) {
+    if stdout {
+        println!("Usage: anyscript [OPTION] <FLAGS>");
+        println!("   -s, --shebang [Shebang Line]             Control the Shebang.");
+        println!("   -h, --help                              Show this help message.");
+    } else {
+        eprintln!("Usage: anyscript [OPTION] <FLAGS>");
+        eprintln!("   -s, --shebang [Shebang Line]             Control the Shebang.");
+        eprintln!("   -h, --help                              Show this help message.");
+    }
+}
+
+fn main() {
+    let all_args: Vec<String> = env::args().collect();
+    let arg_1 = all_args.get(1).unwrap();
+    let arg_2 = all_args.get(2).unwrap();
+    if arg_1 == "--shebang" || arg_1 == "-s" {
+        let (interpreter, path) = read_shebang(&arg_2);
+        println!("Interpreter: {}", interpreter);
+        println!("Path: {}", path);
+    } else if arg_1 == "--help" || arg_1 == "-h" {
+        show_usage(false);
+    } else {
+        show_usage(true);
+    }
 }
