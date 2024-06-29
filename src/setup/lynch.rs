@@ -138,8 +138,8 @@ impl LynchReader {
 
     pub fn coded_to_string(&mut self) -> String {
         self.decode_lynch();
-        let _result = self.encoded.clone();
-        _result
+        
+        self.encoded.clone()
     }
 
     pub fn coded_to_cstring(&mut self) -> CString {
@@ -149,8 +149,8 @@ impl LynchReader {
 
     pub fn encoded_to_string(&mut self) -> String {
         self.encode_lynch();
-        let _result = self.encoded.clone();
-        _result
+        
+        self.encoded.clone()
     }
 
     pub fn encoded_to_cstring(&mut self) -> CString {
