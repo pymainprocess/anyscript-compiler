@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["dict","float","int","list","prelude","tuple"]};
