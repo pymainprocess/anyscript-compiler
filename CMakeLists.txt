@@ -84,4 +84,11 @@ else()
     message(STATUS "Found Rustfmt: ${RUSTFMT_EXECUTABLE}")
 endif()
 
-find_library(ssh_lib REQUIRED)
+find_program(PKG_CONFIG_EXECUTABLE NAMES pkg-config)
+if (NOT PKG_CONFIG_EXECUTABLE)
+    message(FATAL_ERROR "Pkg-config not found. Please ensure it is installed and in your PATH.")
+else()
+    message(STATUS "Found Pkg-config: ${PKG_CONFIG_EXECUTABLE}")
+endif()
+
+find_package(OpenSSL REQUIRED)
